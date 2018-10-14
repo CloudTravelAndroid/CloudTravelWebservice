@@ -1,0 +1,7 @@
+spring.datasource.url=jdbc:mysql://ADDRESS:PORT/DATABASE?useSSL=false&useUnicode=true&characterEncoding=utf8
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.redis.host=
+spring.redis.port=
+spring.redis.password=
