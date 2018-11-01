@@ -27,7 +27,7 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
-    public List<SimpleUniversityDTO> findSimpleUniversitiesByProvinceID(Integer ID) {
+    public List<SimpleUniversityDTO> findSimpleUniversityByProvinceID(Integer ID) {
         List<University> universities = universityMapper.selectUniversitiesByProvinceID(ID);
         return universities.stream().map(o -> new SimpleUniversityDTO(o.getID(), o.getName(), o.getCity()))
                 .collect(Collectors.toList());
@@ -39,5 +39,12 @@ public class UniversityServiceImpl implements UniversityService {
         UniversityDTO universityDTO = new UniversityDTO();
         BeanUtils.copyProperties(university, universityDTO);
         return universityDTO;
+    }
+
+    @Override
+    public List<SimpleUniversityDTO> findSimpleUniversityByName(String name) {
+        List<University> universities = universityMapper.selectUniversitiesByMatchingName(name);
+        return universities.stream().map(o -> new SimpleUniversityDTO(o.getID(), o.getName(), o.getCity()))
+                .collect(Collectors.toList());
     }
 }

@@ -44,4 +44,17 @@ public interface UniversityMapper {
             @Result(property = "description", column = "description", javaType = String.class)
     })
     University selectUniversityByUniversityID(Integer ID);
+
+    @Select("select * from university where name like concat('%', concat(#{name}, '%'))")
+    @Results({
+            @Result(property = "ID", column = "id", javaType = Integer.class),
+            @Result(property = "name", column = "name", javaType = String.class),
+            @Result(property = "provinceID", column = "provinceID", javaType = Integer.class),
+            @Result(property = "website", column = "website", javaType = String.class),
+            @Result(property = "city", column = "city", javaType = String.class),
+            @Result(property = "address", column = "address", javaType = String.class),
+            @Result(property = "openTime", column = "open_time", javaType = String.class),
+            @Result(property = "description", column = "description", javaType = String.class)
+    })
+    List<University> selectUniversitiesByMatchingName(String name);
 }

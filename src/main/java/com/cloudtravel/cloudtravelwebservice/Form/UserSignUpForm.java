@@ -1,11 +1,7 @@
-package com.cloudtravel.cloudtravelwebservice.DO;
+package com.cloudtravel.cloudtravelwebservice.Form;
 
-import lombok.Data;
+public class UserSignUpForm {
 
-@Data
-public class User {
-
-    private Integer ID;
     private String name;
     private String password;
     private String email;

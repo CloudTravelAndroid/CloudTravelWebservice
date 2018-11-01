@@ -10,7 +10,9 @@ public interface UniversityService {
 
     List<ProvinceDTO> getAllProvinces();
 
-    List<SimpleUniversityDTO> findSimpleUniversitiesByProvinceID(Integer ID);
+    List<SimpleUniversityDTO> findSimpleUniversityByProvinceID(Integer ID);
 
     UniversityDTO findUniversityByUniversityID(Integer ID);
+
+    List<SimpleUniversityDTO> findSimpleUniversityByName(String name);
 }

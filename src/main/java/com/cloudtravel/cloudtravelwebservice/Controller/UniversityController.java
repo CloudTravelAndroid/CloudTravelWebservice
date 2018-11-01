@@ -25,7 +25,7 @@ public class UniversityController {
 
     @PostMapping("/province/{ID}")
     public List<SimpleUniversityDTO> findSimpleUniversityByProvinceID(@PathVariable("ID") Integer ID) {
-        return universityService.findSimpleUniversitiesByProvinceID(ID);
+        return universityService.findSimpleUniversityByProvinceID(ID);
     }
 
     @PostMapping("/university/{ID}")
@@ -33,4 +33,8 @@ public class UniversityController {
         return universityService.findUniversityByUniversityID(ID);
     }
 
+    @PostMapping("/university/search")
+    public List<SimpleUniversityDTO> findSimpleUniversityByName(String name) {
+        return universityService.findSimpleUniversityByName(name);
+    }
 }
