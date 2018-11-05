@@ -9,7 +9,7 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{ID}")
     @Results({
-            @Result(property = "id", column = "id", javaType = Integer.class),
+            @Result(property = "ID", column = "id", javaType = Integer.class),
             @Result(property = "name", column = "name", javaType = String.class),
             @Result(property = "password", column = "password", javaType = String.class),
             @Result(property = "email", column = "email", javaType = String.class),
@@ -20,7 +20,7 @@ public interface UserMapper {
 
     @Select("select * from user where name = #{username} ")
     @Results({
-            @Result(property = "id", column = "id", javaType = Integer.class),
+            @Result(property = "ID", column = "id", javaType = Integer.class),
             @Result(property = "name", column = "name", javaType = String.class),
             @Result(property = "password", column = "password", javaType = String.class),
             @Result(property = "email", column = "email", javaType = String.class),
