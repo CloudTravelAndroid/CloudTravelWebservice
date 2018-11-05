@@ -1,8 +1,8 @@
 package com.cloudtravel.cloudtravelwebservice.Form;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class UserSignInForm {
 
     private String name;
