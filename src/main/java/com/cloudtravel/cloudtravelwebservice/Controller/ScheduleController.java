@@ -9,7 +9,6 @@ import com.cloudtravel.cloudtravelwebservice.Form.ScheduleUpdateForm;
 import com.cloudtravel.cloudtravelwebservice.Service.ScheduleService;
 import com.cloudtravel.cloudtravelwebservice.Util.DateUtil;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@Slf4j
 public class ScheduleController {
 
     @Autowired

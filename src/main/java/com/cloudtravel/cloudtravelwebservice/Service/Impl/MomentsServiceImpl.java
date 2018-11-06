@@ -1,26 +1,29 @@
 package com.cloudtravel.cloudtravelwebservice.Service.Impl;
 
+import com.cloudtravel.cloudtravelwebservice.DO.Image;
 import com.cloudtravel.cloudtravelwebservice.DO.Moments;
 import com.cloudtravel.cloudtravelwebservice.DO.MomentsComment;
+import com.cloudtravel.cloudtravelwebservice.DO.MomentsImage;
 import com.cloudtravel.cloudtravelwebservice.DTO.MomentsCommentDTO;
 import com.cloudtravel.cloudtravelwebservice.DTO.MomentsDTO;
 import com.cloudtravel.cloudtravelwebservice.Form.MomentsCommentForm;
 import com.cloudtravel.cloudtravelwebservice.Form.MomentsForm;
+import com.cloudtravel.cloudtravelwebservice.Mapper.ImageMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.MomentsMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.UniversityMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.UserMapper;
 import com.cloudtravel.cloudtravelwebservice.Service.MomentsService;
-import lombok.extern.slf4j.Slf4j;
+import com.cloudtravel.cloudtravelwebservice.Util.FileUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class MomentsServiceImpl implements MomentsService {
 
     @Autowired
@@ -32,10 +35,24 @@ public class MomentsServiceImpl implements MomentsService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ImageMapper imageMapper;
+
     @Override
     public void createMoments(Integer userID, MomentsForm momentsForm) {
-        // Todo: handle the image upload
-
+        Moments moments = new Moments();
+        moments.setUserID(userID);
+        moments.setUniversityID(momentsForm.getUniversityID());
+        moments.setContent(momentsForm.getContent());
+        momentsMapper.insertMoments(moments);
+        for (MultipartFile file : momentsForm.getImages()) {
+            String URL = FileUtil.imageUpload(file);
+            Image image = new Image();
+            image.setURL(URL);
+            imageMapper.insertImage(image);
+            MomentsImage momentsImage = new MomentsImage(moments.getID(), image.getID());
+            momentsMapper.insertMomentsImage(momentsImage);
+        }
     }
 
     @Override

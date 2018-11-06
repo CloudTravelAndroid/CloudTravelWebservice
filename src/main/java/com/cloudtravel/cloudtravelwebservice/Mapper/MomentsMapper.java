@@ -13,11 +13,11 @@ import java.util.List;
 public interface MomentsMapper {
 
     @Insert("insert into moments(user_id, university_id, content) values(#{userID}, #{universityID}, #{content})")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "ID")
     void insertMoments(Moments moments);
 
     @Select("select user_id from moments where id = #{momentsID}")
     Integer selectUserIDByMomentsID(Integer momentsID);
-
 
     @Select("select * from moments order by time desc limit #{size}")
     @Results({

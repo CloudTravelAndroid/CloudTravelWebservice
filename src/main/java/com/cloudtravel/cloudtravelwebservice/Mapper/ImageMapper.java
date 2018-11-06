@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ImageMapper {
 
-    @Insert("insert into image(url) values(#{URL}")
+    @Insert("insert into image(url) values(#{URL})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "ID")
     void insertImage(Image image);
 }

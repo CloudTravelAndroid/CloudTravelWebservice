@@ -12,7 +12,6 @@ import com.cloudtravel.cloudtravelwebservice.Form.UserSignInForm;
 import com.cloudtravel.cloudtravelwebservice.Form.UserSignUpForm;
 import com.cloudtravel.cloudtravelwebservice.Service.UserService;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/users")
-@Slf4j
 public class UserController {
 
     @Autowired

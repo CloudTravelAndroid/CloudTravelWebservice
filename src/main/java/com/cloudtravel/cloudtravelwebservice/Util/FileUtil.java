@@ -18,7 +18,7 @@ public class FileUtil {
                 dir.mkdir();
             }
             String fileName = file.getOriginalFilename();
-            String fileType = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
+            String fileType = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
             if (fileType != null) {
                 for (String str : types) {
                     if (str.toUpperCase().equals(fileType.toUpperCase())) {

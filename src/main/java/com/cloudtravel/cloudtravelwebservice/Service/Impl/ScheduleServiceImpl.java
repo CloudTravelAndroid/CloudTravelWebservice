@@ -9,7 +9,6 @@ import com.cloudtravel.cloudtravelwebservice.Mapper.LocationMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.ScheduleMapper;
 import com.cloudtravel.cloudtravelwebservice.Service.ScheduleService;
 import com.cloudtravel.cloudtravelwebservice.Util.DateUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@Slf4j
 public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
