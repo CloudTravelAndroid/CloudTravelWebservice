@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public interface ScheduleMapper {
 
-    @Select("select * from schedule where user_id = #{userID} and date(time) = curdate()")
+    @Select("select * from schedule where user_id = #{userID} and date(time) = curdate() order by time")
     @Results({
             @Result(column = "id", property = "ID", javaType = Integer.class),
             @Result(column = "time", property = "time", javaType = Date.class),
@@ -20,7 +20,7 @@ public interface ScheduleMapper {
     })
     List<Schedule> selectCurrentScheduleByUserID(Integer userID);
 
-    @Select("select * from schedule where user_id = #{userID} and date(time) = date(#{time})")
+    @Select("select * from schedule where user_id = #{userID} and date(time) = date(#{time}) order by time")
     @Results({
             @Result(column = "id", property = "ID", javaType = Integer.class),
             @Result(column = "time", property = "time", javaType = Date.class),
@@ -28,7 +28,7 @@ public interface ScheduleMapper {
             @Result(column = "user_id", property = "userID", javaType = Integer.class),
             @Result(column = "memo", property = "memo", javaType = String.class)
     })
-    List<Schedule> selectScheduleByUserIDAndTime(Integer userID, Date time);
+    List<Schedule> selectScheduleByUserIDAndTime(@Param("userID") Integer userID, @Param("time") Date time);
 
     @Select("select * from schedule where id = #{ID}")
     @Results({

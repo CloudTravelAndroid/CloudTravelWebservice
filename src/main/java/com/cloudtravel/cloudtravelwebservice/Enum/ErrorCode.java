@@ -11,7 +11,8 @@ public enum ErrorCode {
     UNAUTHORIZED(3, "没有权限"),
     INVALID_PARAMETER(4, "参数错误"),
     USER_NOT_EXIST(5, "用户不存在"),
-    USERNAME_ALREADY_EXIST(6, "用户名已存在");
+    USERNAME_ALREADY_EXIST(6, "用户名已存在"),
+    EXPIRED_TOKEN(7, "身份已过期");
 
     private Integer code;
     private String message;

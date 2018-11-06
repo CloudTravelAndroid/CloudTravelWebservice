@@ -10,6 +10,7 @@ import com.cloudtravel.cloudtravelwebservice.Mapper.MomentsMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.UniversityMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.UserMapper;
 import com.cloudtravel.cloudtravelwebservice.Service.MomentsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class MomentsServiceImpl implements MomentsService {
 
     @Autowired
@@ -52,15 +54,15 @@ public class MomentsServiceImpl implements MomentsService {
     public List<MomentsCommentDTO> findMomentsCommentByMomentsID(Integer momentsID, Integer size) {
         List<MomentsComment> momentsComments = momentsMapper.selectMomentsCommentByMomentsID(momentsID, size);
         return momentsComments.stream().map(o -> new MomentsCommentDTO(o.getID(),
-                userMapper.selectUsernameByUserID(o.getID()), o.getTime(), o.getContent()))
+                userMapper.selectUsernameByUserID(o.getUserID()), o.getTime(), o.getContent()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void createMomentsComment(Integer momentsID, MomentsCommentForm momentsCommentForm) {
+    public void createMomentsComment(Integer userID, MomentsCommentForm momentsCommentForm) {
         MomentsComment momentsComment = new MomentsComment();
         BeanUtils.copyProperties(momentsCommentForm, momentsComment);
-        momentsComment.setMomentsID(momentsID);
+        momentsComment.setUserID(userID);
         momentsMapper.insertMomentsComment(momentsComment);
     }
 

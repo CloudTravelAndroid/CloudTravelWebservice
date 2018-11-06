@@ -8,6 +8,8 @@ import com.cloudtravel.cloudtravelwebservice.Form.ScheduleUpdateForm;
 import com.cloudtravel.cloudtravelwebservice.Mapper.LocationMapper;
 import com.cloudtravel.cloudtravelwebservice.Mapper.ScheduleMapper;
 import com.cloudtravel.cloudtravelwebservice.Service.ScheduleService;
+import com.cloudtravel.cloudtravelwebservice.Util.DateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
@@ -39,8 +42,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public void createSchedule(Integer userID, ScheduleForm scheduleForm) {
+        Location location = locationMapper.selectLocationByUID(scheduleForm.getUID());
+        if (location == null) {
+            location = new Location();
+            BeanUtils.copyProperties(scheduleForm, location);
+            location.setLatitude(Double.valueOf(scheduleForm.getLatitude()));
+            location.setLongitude(Double.valueOf(scheduleForm.getLongitude()));
+            locationMapper.insertLocation(location);
+        }
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleForm, schedule);
+        schedule.setLocationID(location.getID());
+        Date time = DateUtil.str2Date(scheduleForm.getTime(), DateUtil.FORMAT_yMdHMS);
+        schedule.setTime(time);
         schedule.setUserID(userID);
         scheduleMapper.insertSchedule(schedule);
     }
@@ -54,6 +68,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void updateSchedule(ScheduleUpdateForm scheduleUpdateForm) {
         Schedule schedule = new Schedule();
         BeanUtils.copyProperties(scheduleUpdateForm, schedule);
+        Date time = DateUtil.str2Date(scheduleUpdateForm.getTime(), DateUtil.FORMAT_yMdHMS);
+        schedule.setTime(time);
         scheduleMapper.updateSchedule(schedule);
     }
 

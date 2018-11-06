@@ -5,6 +5,9 @@ import com.cloudtravel.cloudtravelwebservice.DO.User;
 import com.cloudtravel.cloudtravelwebservice.DTO.BaseResponse;
 import com.cloudtravel.cloudtravelwebservice.DTO.UserDTO;
 import com.cloudtravel.cloudtravelwebservice.Enum.ErrorCode;
+import com.cloudtravel.cloudtravelwebservice.Exception.SignInException;
+import com.cloudtravel.cloudtravelwebservice.Exception.SignUpException;
+import com.cloudtravel.cloudtravelwebservice.Exception.TokenExpiredException;
 import com.cloudtravel.cloudtravelwebservice.Form.UserSignInForm;
 import com.cloudtravel.cloudtravelwebservice.Form.UserSignUpForm;
 import com.cloudtravel.cloudtravelwebservice.Service.UserService;
@@ -37,7 +40,7 @@ public class UserController {
         // Todo: Verify the userSignUpForm
         Integer userID = userService.createUser(userSignUpForm);
         if (userID == null) {
-            // Todo: Handle username already exists
+            throw new SignUpException(ErrorCode.USERNAME_ALREADY_EXIST);
         }
         String token = UUID.randomUUID().toString();
         Integer expireTime = RedisConstant.EXPIRE_TIME;
@@ -51,10 +54,10 @@ public class UserController {
     public BaseResponse<String> signIn(UserSignInForm userSignInForm) {
         User user = userService.findUserByUsername(userSignInForm.getName());
         if (user == null) {
-            // Todo: Handle nonexistent username
+            throw new SignInException(ErrorCode.USERNAME_NOT_EXIST);
         }
         if (!user.getPassword().equals(userSignInForm.getPassword())) {
-            // Todo: Handle incorrect password
+            throw new SignInException(ErrorCode.INCORRECT_PASSWORD);
         }
         Integer userId = user.getID();
         String token = UUID.randomUUID().toString();
@@ -75,7 +78,7 @@ public class UserController {
     public BaseResponse<UserDTO> getUserInfo(HttpServletRequest httpServletRequest) {
         Integer userId = RedisUtil.getUserIdFromRequestHeader(redisTemplate, httpServletRequest);
         if (userId == null) {
-            // Todo: Handle expired token
+            throw new TokenExpiredException();
         }
         UserDTO userDTO = userService.getUserInfoByUserID(userId);
         BaseResponse<UserDTO> response = new BaseResponse<>(ErrorCode.SUCCESS);

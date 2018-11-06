@@ -9,6 +9,7 @@ import com.cloudtravel.cloudtravelwebservice.Form.ScheduleUpdateForm;
 import com.cloudtravel.cloudtravelwebservice.Service.ScheduleService;
 import com.cloudtravel.cloudtravelwebservice.Util.DateUtil;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class ScheduleController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class ScheduleController {
     @PostMapping("/schedules/time")
     public BaseResponse<List<ScheduleDTO>> getSchedule(HttpServletRequest request, String time) {
         Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
-        Date date = DateUtil.str2Date(time, DateUtil.FORMAT_HMS);
+        Date date = DateUtil.str2Date(time, DateUtil.FORMAT_yMdHMS);
         List<ScheduleDTO> scheduleDTOS = scheduleService.findScheduleByUserIDAndTime(userID, date);
         BaseResponse<List<ScheduleDTO>> response = new BaseResponse<>(ErrorCode.SUCCESS);
         response.setObject(scheduleDTOS);

@@ -1,5 +1,8 @@
 package com.cloudtravel.cloudtravelwebservice.DTO;
 
+import lombok.Data;
+
+@Data
 public class UserDTO {
 
     private Integer ID;

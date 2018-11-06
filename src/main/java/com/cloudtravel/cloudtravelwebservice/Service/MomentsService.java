@@ -17,7 +17,7 @@ public interface MomentsService {
 
     List<MomentsCommentDTO> findMomentsCommentByMomentsID(Integer momentsID, Integer size);
 
-    void createMomentsComment(Integer momentsID, MomentsCommentForm momentsCommentForm);
+    void createMomentsComment(Integer userID, MomentsCommentForm momentsCommentForm);
 
     void deleteMomentsByMomentsID(Integer momentsID);
 
