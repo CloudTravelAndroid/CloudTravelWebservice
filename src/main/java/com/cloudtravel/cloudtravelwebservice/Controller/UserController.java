@@ -10,7 +10,6 @@ import com.cloudtravel.cloudtravelwebservice.Form.UserSignUpForm;
 import com.cloudtravel.cloudtravelwebservice.Service.UserService;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/users")
 @Slf4j
 public class UserController {
 
@@ -33,12 +32,10 @@ public class UserController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @PostMapping("actions/signUp")
+    @PostMapping("/actions/signUp")
     public BaseResponse<String> signUp(UserSignUpForm userSignUpForm) {
         // Todo: Verify the userSignUpForm
-        User user = new User();
-        BeanUtils.copyProperties(userSignUpForm, user);
-        Integer userID = userService.createUser(user);
+        Integer userID = userService.createUser(userSignUpForm);
         if (userID == null) {
             // Todo: Handle username already exists
         }
@@ -50,7 +47,7 @@ public class UserController {
         return response;
     }
 
-    @PostMapping("actions/signIn")
+    @PostMapping("/actions/signIn")
     public BaseResponse<String> signIn(UserSignInForm userSignInForm) {
         User user = userService.findUserByUsername(userSignInForm.getName());
         if (user == null) {
@@ -68,13 +65,13 @@ public class UserController {
         return response;
     }
 
-    @GetMapping("actions/logOut")
+    @GetMapping("/actions/logOut")
     public BaseResponse logOut(HttpServletRequest request) {
         RedisUtil.deleteTokenFromRequestHeader(redisTemplate, request);
         return new BaseResponse(ErrorCode.SUCCESS);
     }
 
-    @GetMapping("info")
+    @GetMapping("/info")
     public BaseResponse<UserDTO> getUserInfo(HttpServletRequest httpServletRequest) {
         Integer userId = RedisUtil.getUserIdFromRequestHeader(redisTemplate, httpServletRequest);
         if (userId == null) {

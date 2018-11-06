@@ -23,17 +23,17 @@ public class UniversityController {
         return universityService.getAllProvinces();
     }
 
-    @PostMapping("/province/{ID}")
+    @PostMapping("/provinces/{ID}")
     public List<SimpleUniversityDTO> findSimpleUniversityByProvinceID(@PathVariable("ID") Integer ID) {
         return universityService.findSimpleUniversityByProvinceID(ID);
     }
 
-    @PostMapping("/university/{ID}")
+    @PostMapping("/universities/{ID}")
     public UniversityDTO findUniversityByUniversityID(@PathVariable("ID") Integer ID) {
         return universityService.findUniversityByUniversityID(ID);
     }
 
-    @PostMapping("/university/search")
+    @PostMapping("/universities/search")
     public List<SimpleUniversityDTO> findSimpleUniversityByName(String name) {
         return universityService.findSimpleUniversityByName(name);
     }

@@ -31,9 +31,12 @@ public interface UserMapper {
 
     @Insert("insert into user(name, password, email, phone_number, university_id) values(#{name}, #{password}, " +
             "#{email}, #{phoneNumber}, #{universityID})")
-    @Options(useGeneratedKeys = true, keyColumn = "id")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "ID")
     int insertUser(User user);
 
     @Delete("delete from user where id = #{ID}")
     int deleteUserByUserID(Integer ID);
+
+    @Select("select name from user where user_id = #{ID}")
+    String selectUsernameByUserID(Integer ID);
 }

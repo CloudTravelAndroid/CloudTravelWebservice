@@ -3,6 +3,7 @@ package com.cloudtravel.cloudtravelwebservice.Service;
 
 import com.cloudtravel.cloudtravelwebservice.DO.User;
 import com.cloudtravel.cloudtravelwebservice.DTO.UserDTO;
+import com.cloudtravel.cloudtravelwebservice.Form.UserSignUpForm;
 
 public interface UserService {
 
@@ -10,9 +11,11 @@ public interface UserService {
 
     UserDTO getUserInfoByUsername(String username);
 
-    Integer createUser(User user);
+    Integer createUser(UserSignUpForm userSignUpForm);
 
-    int deleteUserByUserID(Integer ID);
+    void deleteUserByUserID(Integer ID);
 
     User findUserByUsername(String username);
+
+    String findUsernameByUserID(Integer ID);
 }

@@ -2,6 +2,7 @@ package com.cloudtravel.cloudtravelwebservice.Service.Impl;
 
 import com.cloudtravel.cloudtravelwebservice.DO.User;
 import com.cloudtravel.cloudtravelwebservice.DTO.UserDTO;
+import com.cloudtravel.cloudtravelwebservice.Form.UserSignUpForm;
 import com.cloudtravel.cloudtravelwebservice.Mapper.UserMapper;
 import com.cloudtravel.cloudtravelwebservice.Service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -31,13 +32,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer createUser(User user) {
-        return userMapper.insertUser(user);
+    public Integer createUser(UserSignUpForm userSignUpForm) {
+        User user = new User();
+        BeanUtils.copyProperties(userSignUpForm, user);
+        userMapper.insertUser(user);
+        return user.getID();
     }
 
     @Override
-    public int deleteUserByUserID(Integer ID) {
-        return userMapper.deleteUserByUserID(ID);
+    public void deleteUserByUserID(Integer ID) {
+        userMapper.deleteUserByUserID(ID);
     }
 
     @Override
@@ -45,5 +49,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectUserByUsername(username);
     }
 
-
+    @Override
+    public String findUsernameByUserID(Integer ID) {
+        return userMapper.selectUsernameByUserID(ID);
+    }
 }

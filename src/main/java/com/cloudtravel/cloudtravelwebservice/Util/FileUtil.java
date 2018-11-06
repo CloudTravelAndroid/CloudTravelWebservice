@@ -7,11 +7,11 @@ import java.io.IOException;
 
 public class FileUtil {
 
-    public static final String UPLOAD_DIRECTORY = "/srv/ftp/www/images/";
+    private static final String UPLOAD_DIRECTORY = "/srv/ftp/www/images/";
 
-    public static final String[] IMAGE_TYPES = {"png", "jpg", "gif"};
+    private static final String[] IMAGE_TYPES = {"png", "jpg", "gif"};
 
-    public static String fileUpload(MultipartFile file, String uploadDir, String[] types) {
+    private static String fileUpload(MultipartFile file, String uploadDir, String[] types) {
         try {
             File dir = new File(uploadDir);
             if (!dir.exists()) {
