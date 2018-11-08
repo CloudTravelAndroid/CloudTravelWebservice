@@ -5,12 +5,12 @@ import lombok.Data;
 @Data
 public class SimpleUniversityDTO {
 
-    private Integer ID;
+    private Integer id;
     private String name;
     private String city;
 
-    public SimpleUniversityDTO(Integer ID, String name, String city) {
-        this.ID = ID;
+    public SimpleUniversityDTO(Integer id, String name, String city) {
+        this.id = id;
         this.name = name;
         this.city = city;
     }

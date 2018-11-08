@@ -7,7 +7,7 @@ public class ScheduleForm {
 
     private String name;
     private String address;
-    private String UID;
+    private String uid;
     private String time;
     private String latitude;
     private String longitude;

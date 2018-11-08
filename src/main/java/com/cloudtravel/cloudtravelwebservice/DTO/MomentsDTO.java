@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class MomentsDTO {
 
-    private Integer ID;
+    private Integer id;
     private String username;
     private String university;
     private Date time;

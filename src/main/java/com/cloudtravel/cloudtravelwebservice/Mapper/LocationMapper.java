@@ -18,7 +18,7 @@ public interface LocationMapper {
     })
     Location selectLocationByID(Integer ID);
 
-    @Insert("insert into location(id, uid, name, address, latitude, longitude) values(#{ID}, #{UID}, #{name}, " +
+    @Insert("insert into location(uid, name, address, latitude, longitude) values(#{UID}, #{name}, " +
             "#{address}, #{latitude}, #{longitude})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "ID")
     void insertLocation(Location location);

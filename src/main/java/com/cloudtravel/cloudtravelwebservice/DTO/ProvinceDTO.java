@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class ProvinceDTO {
 
-    private Integer ID;
+    private Integer id;
     private String name;
 
-    public ProvinceDTO(Integer ID, String name) {
-        this.ID = ID;
+    public ProvinceDTO(Integer id, String name) {
+        this.id = id;
         this.name = name;
     }
 }

@@ -9,7 +9,7 @@ public class FileUtil {
 
     private static final String UPLOAD_DIRECTORY = "/srv/ftp/www/images/";
 
-    private static final String[] IMAGE_TYPES = {"png", "jpg", "gif"};
+    private static final String[] IMAGE_TYPES = {"png", "jpg", "gif", "jpeg"};
 
     private static String fileUpload(MultipartFile file, String uploadDir, String[] types) {
         try {

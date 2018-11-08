@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UniversityDTO {
 
-    private Integer ID;
+    private Integer id;
     private String name;
     private Integer provinceID;
     private String website;

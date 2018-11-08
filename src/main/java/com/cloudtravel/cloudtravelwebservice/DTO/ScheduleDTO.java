@@ -7,7 +7,7 @@ import java.util.Date;
 @Data
 public class ScheduleDTO {
 
-    private Integer ID;
+    private Integer id;
     private String locationName;
     private String locationAddress;
     private Date time;

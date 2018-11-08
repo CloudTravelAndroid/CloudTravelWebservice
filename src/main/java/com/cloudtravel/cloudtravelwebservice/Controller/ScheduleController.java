@@ -9,10 +9,12 @@ import com.cloudtravel.cloudtravelwebservice.Form.ScheduleUpdateForm;
 import com.cloudtravel.cloudtravelwebservice.Service.ScheduleService;
 import com.cloudtravel.cloudtravelwebservice.Util.DateUtil;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class ScheduleController {
 
     @Autowired
@@ -48,8 +51,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/schedules")
-    public BaseResponse createSchedule(HttpServletRequest request, ScheduleForm scheduleForm) {
+    public BaseResponse createSchedule(HttpServletRequest request, @RequestBody ScheduleForm scheduleForm) {
         // Todo: Verify the scheduleForm
+        //log.info(scheduleForm.toString());
         Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
         scheduleService.createSchedule(userID, scheduleForm);
         return new BaseResponse(ErrorCode.SUCCESS);
@@ -66,9 +70,9 @@ public class ScheduleController {
     }
 
     @PostMapping("/schedules/update")
-    public BaseResponse updateSchedule(HttpServletRequest request, ScheduleUpdateForm updateForm) {
+    public BaseResponse updateSchedule(HttpServletRequest request, @RequestBody ScheduleUpdateForm updateForm) {
         Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
-        if (!userID.equals(scheduleService.findUserIDOfSchedule(updateForm.getID()))) {
+        if (!userID.equals(scheduleService.findUserIDOfSchedule(updateForm.getId()))) {
             throw new UnauthorizedException();
         }
         scheduleService.updateSchedule(updateForm);

@@ -14,10 +14,7 @@ import com.cloudtravel.cloudtravelwebservice.Service.UserService;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
@@ -34,7 +31,7 @@ public class UserController {
     private StringRedisTemplate redisTemplate;
 
     @PostMapping("/actions/signUp")
-    public BaseResponse<String> signUp(UserSignUpForm userSignUpForm) {
+    public BaseResponse<String> signUp(@RequestBody UserSignUpForm userSignUpForm) {
         // Todo: Verify the userSignUpForm
         Integer userID = userService.createUser(userSignUpForm);
         if (userID == null) {
@@ -49,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("/actions/signIn")
-    public BaseResponse<String> signIn(UserSignInForm userSignInForm) {
+    public BaseResponse<String> signIn(@RequestBody UserSignInForm userSignInForm) {
         User user = userService.findUserByUsername(userSignInForm.getName());
         if (user == null) {
             throw new SignInException(ErrorCode.USERNAME_NOT_EXIST);

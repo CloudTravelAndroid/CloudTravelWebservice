@@ -9,15 +9,20 @@ import com.cloudtravel.cloudtravelwebservice.Form.MomentsCommentForm;
 import com.cloudtravel.cloudtravelwebservice.Form.MomentsForm;
 import com.cloudtravel.cloudtravelwebservice.Service.MomentsService;
 import com.cloudtravel.cloudtravelwebservice.Util.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class MomentsController {
 
     @Autowired
@@ -34,7 +39,7 @@ public class MomentsController {
     }
 
     @PostMapping("/moments/me")
-    public BaseResponse<List<MomentsDTO>> getLatestMomentsByUserID(HttpServletRequest request, Integer size) {
+    public BaseResponse<List<MomentsDTO>> getLatestUserRelatedMoments(HttpServletRequest request, Integer size) {
         Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
         List<MomentsDTO> momentsDTOS = momentsService.findLatestMomentsByUserID(userID, size);
         BaseResponse<List<MomentsDTO>> response = new BaseResponse<>(ErrorCode.SUCCESS);
@@ -42,9 +47,27 @@ public class MomentsController {
         return response;
     }
 
+//    @PostMapping("/moments/body")
+//    public BaseResponse createMoments(HttpServletRequest request, @RequestBody MomentsForm momentsForm) {
+//        Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
+//        momentsService.createMoments(userID, momentsForm);
+//        return new BaseResponse(ErrorCode.SUCCESS);
+//    }
+
     @PostMapping("/moments")
-    public BaseResponse createMoments(HttpServletRequest request, MomentsForm momentsForm) {
+    public BaseResponse createMoments(HttpServletRequest request) {
         Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
+        MomentsForm momentsForm = new MomentsForm();
+        MultipartHttpServletRequest params = (MultipartHttpServletRequest) request;
+        List<MultipartFile> files = params.getFiles("images");
+        momentsForm.setContent(params.getParameter("content"));
+        momentsForm.setImages(files);
+        Integer universityID = null;
+        if (params.getParameter("universityID") != null) {
+            universityID = Integer.valueOf(params.getParameter("universityID"));
+        }
+        momentsForm.setUniversityID(universityID);
+        log.info(momentsForm.toString());
         momentsService.createMoments(userID, momentsForm);
         return new BaseResponse(ErrorCode.SUCCESS);
     }
@@ -68,7 +91,7 @@ public class MomentsController {
     }
 
     @PostMapping("/moments/comments/actions/create")
-    public BaseResponse createMomentsComment(HttpServletRequest request, MomentsCommentForm momentsCommentForm) {
+    public BaseResponse createMomentsComment(HttpServletRequest request, @RequestBody MomentsCommentForm momentsCommentForm) {
         Integer userID = RedisUtil.getUserIdFromRequestHeader(redisTemplate, request);
         momentsService.createMomentsComment(userID, momentsCommentForm);
         return new BaseResponse(ErrorCode.SUCCESS);

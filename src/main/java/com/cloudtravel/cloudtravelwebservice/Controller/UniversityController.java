@@ -1,8 +1,10 @@
 package com.cloudtravel.cloudtravelwebservice.Controller;
 
+import com.cloudtravel.cloudtravelwebservice.DTO.BaseResponse;
 import com.cloudtravel.cloudtravelwebservice.DTO.ProvinceDTO;
 import com.cloudtravel.cloudtravelwebservice.DTO.SimpleUniversityDTO;
 import com.cloudtravel.cloudtravelwebservice.DTO.UniversityDTO;
+import com.cloudtravel.cloudtravelwebservice.Enum.ErrorCode;
 import com.cloudtravel.cloudtravelwebservice.Service.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +21,34 @@ public class UniversityController {
     private UniversityService universityService;
 
     @GetMapping("/provinces")
-    public List<ProvinceDTO> getAllProvinces() {
-        return universityService.getAllProvinces();
+    public BaseResponse<List<ProvinceDTO>> getAllProvinces() {
+        List<ProvinceDTO> provinceDTOS = universityService.getAllProvinces();
+        BaseResponse<List<ProvinceDTO>> response = new BaseResponse<>(ErrorCode.SUCCESS);
+        response.setObject(provinceDTOS);
+        return response;
     }
 
     @PostMapping("/provinces/{ID}")
-    public List<SimpleUniversityDTO> findSimpleUniversityByProvinceID(@PathVariable("ID") Integer ID) {
-        return universityService.findSimpleUniversityByProvinceID(ID);
+    public BaseResponse<List<SimpleUniversityDTO>> findSimpleUniversityByProvinceID(@PathVariable("ID") Integer ID) {
+        List<SimpleUniversityDTO> simpleUniversityDTOS = universityService.findSimpleUniversityByProvinceID(ID);
+        BaseResponse<List<SimpleUniversityDTO>> response = new BaseResponse<>(ErrorCode.SUCCESS);
+        response.setObject(simpleUniversityDTOS);
+        return response;
     }
 
     @PostMapping("/universities/{ID}")
-    public UniversityDTO findUniversityByUniversityID(@PathVariable("ID") Integer ID) {
-        return universityService.findUniversityByUniversityID(ID);
+    public BaseResponse<UniversityDTO> findUniversityByUniversityID(@PathVariable("ID") Integer ID) {
+        UniversityDTO universityDTO = universityService.findUniversityByUniversityID(ID);
+        BaseResponse<UniversityDTO> response = new BaseResponse<>();
+        response.setObject(universityDTO);
+        return response;
     }
 
     @PostMapping("/universities/search")
-    public List<SimpleUniversityDTO> findSimpleUniversityByName(String name) {
-        return universityService.findSimpleUniversityByName(name);
+    public BaseResponse<List<SimpleUniversityDTO>> findSimpleUniversityByName(String name) {
+        List<SimpleUniversityDTO> simpleUniversityDTOS = universityService.findSimpleUniversityByName(name);
+        BaseResponse<List<SimpleUniversityDTO>> response = new BaseResponse<>(ErrorCode.SUCCESS);
+        response.setObject(simpleUniversityDTOS);
+        return response;
     }
 }

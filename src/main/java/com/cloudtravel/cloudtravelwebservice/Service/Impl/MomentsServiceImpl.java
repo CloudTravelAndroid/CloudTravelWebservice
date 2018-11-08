@@ -45,13 +45,16 @@ public class MomentsServiceImpl implements MomentsService {
         moments.setUniversityID(momentsForm.getUniversityID());
         moments.setContent(momentsForm.getContent());
         momentsMapper.insertMoments(moments);
-        for (MultipartFile file : momentsForm.getImages()) {
-            String URL = FileUtil.imageUpload(file);
-            Image image = new Image();
-            image.setURL(URL);
-            imageMapper.insertImage(image);
-            MomentsImage momentsImage = new MomentsImage(moments.getID(), image.getID());
-            momentsMapper.insertMomentsImage(momentsImage);
+        List<MultipartFile> files = momentsForm.getImages();
+        if (files != null && !files.isEmpty()) {
+            for (MultipartFile file : files) {
+                String URL = FileUtil.imageUpload(file);
+                Image image = new Image();
+                image.setURL(URL);
+                imageMapper.insertImage(image);
+                MomentsImage momentsImage = new MomentsImage(moments.getID(), image.getID());
+                momentsMapper.insertMomentsImage(momentsImage);
+            }
         }
     }
 
@@ -94,8 +97,11 @@ public class MomentsServiceImpl implements MomentsService {
             MomentsDTO momentsDTO = new MomentsDTO();
             BeanUtils.copyProperties(moments, momentsDTO);
             momentsDTO.setUsername(userMapper.selectUserByUserID(moments.getUserID()).getName());
-            momentsDTO.setUniversity(universityMapper.selectUniversityByUniversityID(moments.getUniversityID())
-                    .getName());
+            String university = null;
+            if (moments.getUniversityID() != null) {
+                university = universityMapper.selectUniversityByUniversityID(moments.getUniversityID()).getName();
+            }
+            momentsDTO.setUniversity(university);
             momentsDTO.setImageUrls(momentsMapper.selectImageURLByMomentsID(moments.getID()));
             momentsDTOS.add(momentsDTO);
         }
